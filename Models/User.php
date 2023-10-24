@@ -15,11 +15,13 @@ class User {
     private DateTime $birthDate;
     private DateTime $membershipExpirationDate;
     private string $role;
+    private bool $isActive;
 
     public function __construct(
         int $id, string $firstName, string $lastName, string $email,
         string $password, string $phoneNumber, string $address,
-        DateTime $birthDate, DateTime $membershipExpirationDate, string $role
+        DateTime $birthDate, DateTime $membershipExpirationDate, string $role,
+        bool $isActive
     ) {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -31,6 +33,7 @@ class User {
         $this->birthDate = $birthDate;
         $this->membershipExpirationDate = $membershipExpirationDate;
         $this->role = $role;
+        $this->isActive = $isActive;
     }
 
     public function login(string $password): bool {
@@ -58,7 +61,7 @@ class User {
 
     public function toString(): string {
         return sprintf(
-            "User ID: %d\nName: %s %s\nEmail: %s\nPhone Number: %s\nAddress: %s\nBirth Date: %s\nMembership Expiration Date: %s\nRole: %s\n",
+            "User ID: %d\nName: %s %s\nEmail: %s\nPhone Number: %s\nAddress: %s\nBirth Date: %s\nMembership Expiration Date: %s\nRole: %s\nisActive: %s\n",
             $this->id,
             $this->firstName,
             $this->lastName,
@@ -67,7 +70,8 @@ class User {
             $this->address,
             $this->birthDate->format('Y-m-d'),
             $this->membershipExpirationDate->format('Y-m-d'),
-            $this->role
+            $this->role,
+            var_export($this->isActive, true)
         );
     }
 
@@ -82,6 +86,7 @@ class User {
                 <p>Birth Date: %s</p>
                 <p>Membership Expiration Date: %s</p>
                 <p>Role: %s</p>
+                <p>isActive: %s</p>
             </div>",
             $this->firstName,
             $this->lastName,
@@ -90,18 +95,21 @@ class User {
             $this->address,
             $this->birthDate->format('Y-m-d'),
             $this->membershipExpirationDate->format('Y-m-d'),
-            $this->role
+            $this->role,
+            var_export($this->isActive, true)
         );
     }
 
     public function toMarkdown() {
+        $isActiveString = var_export($this->isActive, true);
         return "## User: {$this->firstName} {$this->lastName}
                  - Email: {$this->email}
                  - Phone Number: {$this->phoneNumber}
                  - Address: {$this->address}
                  - Birth Date: {$this->birthDate}
                  - Is Active: {$this->isActive}
-                 - Role: {$this->role}";
+                 - Role: {$this->role}
+                 - isActive: {$isActiveString}";
     }
 
     public function toArray() {
@@ -110,12 +118,11 @@ class User {
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'email' => $this->email,
-            'password' => $this->password,
             'phoneNumber' => $this->phoneNumber,
             'address' => $this->address,
             'birthDate' => $this->birthDate,
-            'isActive' => $this->isActive,
-            'role' => $this->role
+            'role' => $this->role,
+            'isActive' => var_export($this->isActive, true)
         ];
     }
 }

@@ -19,7 +19,8 @@ class RandomGenerator {
             $faker->address,
             $faker->dateTimeThisCentury,
             $faker->dateTimeBetween('-10 years', '+20 years'),
-            $faker->randomElement(['admin', 'user', 'editor'])
+            $faker->randomElement(['admin', 'user', 'editor']),
+            $faker->boolean(80)
         );
     }
 
